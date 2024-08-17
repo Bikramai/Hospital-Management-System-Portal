@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %} | Teccart Hospital</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename="images/favicon.png") }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+
+    {% block style %}
+    {% endblock style %}
+
+</head>
+<body>
+    <div class="nav-bar">
+        <nav>
+            <div class="nav-header">
+                <h3>Teccart Hospital</h3>
+                {% if 'user_id' in session and session['user_type'] == "DOCTOR" %}
+                    <div>
+                        <form method="post" action="{{ url_for('common_route.search') }}">
+                            <input type="email" name="email" placeholder="Search Email" required>
+                            <input type="submit" value="Search">
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="nav-item">
+                {% if 'user_id' in session %}
+                    <a href="{{ url_for('auth.logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('auth.patient_login') }}">Home</a>
+                    <a href="{{ url_for('common_route.contact_us') }}">Contact</a>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+
+    {% block content %}
+    {% endblock content %}
+
+    {% block script %}
+    {% endblock script %}
+
+</body>
+</html>

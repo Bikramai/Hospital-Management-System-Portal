@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Prescriptions{% endblock title %}
+
+{% block style %}
+    <style>
+        .dashboard-options{
+            flex: 2;
+        }
+        table{
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead tr{
+            background-color: white;
+        }
+
+        td, th{
+            padding: 15px 5px;
+            border-top: 1px solid lightgrey;
+        }
+
+        tr:hover:not(thead tr){
+            background-color: #e8e8e8;
+        }
+
+    </style>
+{% endblock style %}
+
+{% set prescriptions_active = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            {% include "flash_message.html" %}
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <table cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Patient</th>
+                                <th>Appointment Date</th>
+                                <th>Appointment Time</th>
+                                <th>Disease</th>
+                                <th>Allergy</th>
+                                <th>Prescribe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appt in prescriptions %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ appt.patient.fname }} {{ appt.patient.lname }}</td>
+                                    <td>{{ appt.appointment_date.strftime("%d %b, %Y")}}</td>
+                                    <td>{{ appt.appointment_time.strftime("%I:%M %p") }}</td>
+                                    <td>{{ appt.disease }}</td>
+                                    <td>{{ appt.allergy }}</td>
+                                    <td>{{ appt.prescription }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

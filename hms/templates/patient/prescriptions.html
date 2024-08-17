@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Prescriptions{% endblock title %}
+
+{% block style %}
+    <style>
+        .dashboard-flex{
+            gap: 10px;
+        }
+
+        .dashboard-options{
+            flex: 2;
+        }
+
+        table{
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead tr{
+            background-color: white;
+        }
+
+        td, th{
+            padding: 20px 5px;
+            border-top: 1px solid lightgrey;
+        }
+
+        tr:hover:not(thead tr){
+            background-color: #e8e8e8;
+        }
+
+        .pay-bill-btn{
+            padding: 10px;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/side_panel.css') }}">
+{% endblock style %}
+
+{% set prescriptions_active = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <table cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Disease</th>
+                                <th>Allergies</th>
+                                <th>Prescriptions</th>
+                                <th>Payment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appt in appointments %}
+                                <tr>
+                                    <td>{{ appt.doctor.fname }} {{ appt.doctor.lname }}</td>
+                                    <td>{{ appt.appointment_date.strftime('%d %b, %Y') }}</td>
+                                    <td>{{ appt.appointment_time.strftime('%I:%M %p') }}</td>
+                                    <td>{{ appt.disease }}</td>
+                                    <td>{{ appt.allergy }}</td>
+                                    <td>{{ appt.prescription }}</td>
+                                    <td>
+                                        <a class="pay-bill-btn">Paybill</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

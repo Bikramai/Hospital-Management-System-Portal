@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Appointments{% endblock title %}
+
+{% block style %}
+    <style>
+        .side-panel{
+            width: 400px !important;
+        }
+
+        .dashboard-flex{
+            flex-direction: column;
+        }
+
+        table{
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            cell-spaceing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead tr{
+            background-color: white;
+        }
+
+        td, th{
+            padding: 15px 5px;
+            border-top: 1px solid lightgrey;
+        }
+
+        tr:hover:not(thead tr){
+            background-color: #e8e8e8;
+        }
+
+    </style>
+{% endblock style %}
+
+{% set appointment_active = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            {% include "flash_message.html" %}
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <table cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Patient</th>
+                                <th>Gender</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                <th>Prescribe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appt in appointments %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ appt.patient.fname }} {{ appt.patient.lname }}</td>
+                                    <td>{{ appt.patient.gender.capitalize() }}</td>
+                                    <td>{{ appt.patient.email }}</td>
+                                    <td>{{ appt.patient.contact }}</td>
+                                    <td>{{ appt.appointment_date.strftime("%d %b, %Y")}}</td>
+                                    <td>{{ appt.appointment_time.strftime("%I:%M %p") }}</td>
+                                    <td>{{ appt.status }}</td>
+                                    {% if appt.status == "Active" %}
+                                        <td><a class="cancle-btn" href="{{ url_for('doctor.cancel_appointment', appointment_id=appt.id) }}">Cancel</a></td>
+                                        <td><a class="prescribe-btn" href="{{ url_for('doctor.prescribe', appointment_id=appt.id) }}">Prescribe</a></td>
+                                    {% else %}
+                                        <td>{{ appt.action }}</td>
+                                        <td>-</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

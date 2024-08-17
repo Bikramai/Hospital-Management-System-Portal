@@ -1,0 +1,65 @@
+<style>
+    .side-panel{
+        width: 100%;
+        flex: 1 ;
+    }
+
+    .side-panel > div{
+        overflow: hidden;
+        border-radius: 10px;
+        border: 1px solid lightgrey;
+        background-color: white;
+    }
+
+    .side-panel a{
+        display: block;
+        font-size: 15px;
+        width: inherit;
+
+        padding: 15px 30px;
+        color: grey;
+        text-decoration: none;
+    }
+
+    .side-panel a:not(:last-child){
+        border-bottom: 1px solid lightgrey;
+    }
+
+    .side-panel a:hover{
+        background-color: #e2e8ff;
+    }
+
+    .side-panel-active{
+        color: white !important;
+        background: linear-gradient(to right, #000c40, #f0f2f0);
+        background-size: cover;
+    }
+</style>
+
+<div class="side-panel">
+    <div>
+        {% if user.user_type == "PATIENT" %}
+            <a class="{{ dashboard }}" href="{{ url_for('patient.dashboard') }}">Dashboard</a>
+            <a class="{{ bk_appoint_active }}" href="{{ url_for('patient.book_appointment') }}">Book Appointment</a>
+            <a class="{{ appoint_hist_active }}" href="{{ url_for('patient.appointment_history') }}">Appointment History</a>
+            <a class="{{ prescriptions_active }}" href="{{ url_for('patient.prescriptions') }}">Prescriptions</a>
+        {% elif user.user_type == "DOCTOR" %}
+            <a class="{{ dashboard }}" href="{{ url_for('doctor.dashboard') }}">Dashboard</a>
+            <a class="{{ appointment_active }}" href="{{ url_for('doctor.view_appointments') }}">Appointments</a>
+            <a class="{{ prescriptions_active }}" href="{{ url_for('doctor.view_prescription') }}">Prescriptions</a>
+        {% elif user.user_type == "ADMIN_G" %}
+            <a class="{{ dashboard }}" href="{{ url_for('admin_g.dashboard') }}">Dashboard</a>
+            <a class="{{ view_doctor }}" href="{{ url_for('admin_g.view_doctors') }}">View Doctors</a>
+            <a class="{{ view_patient }}" href="{{ url_for('admin_g.view_patients') }}">View Patients</a>
+            <a class="{{ add_doctor }}" href="{{ url_for('admin_g.add_doctor') }}">Add Doctor</a>
+            <a class="{{ delete_doctor }}" href="{{ url_for('admin_g.delete_doctor') }}">Delete Doctor</a>
+            <a class="{{ queries }}" href="{{ url_for('admin_g.queries') }}">Queries</a>
+        {% elif user.user_type == "ADMIN_D" %}
+            <a class="{{ dashboard }}" href="{{ url_for('admin_d.dashboard') }}">Dashboard</a>
+            <a class="{{ view_doctor }}" href="{{ url_for('admin_d.view_doctors') }}">View Doctors</a>
+            <a class="{{ view_patient }}" href="{{ url_for('admin_d.view_patients') }}">View Patients</a>
+            <a class="{{ appointment_details }}" href="{{ url_for('admin_d.appointment_details') }}">Appointment Details</a>
+            <a class="{{ prescription_list }}" href="{{ url_for('admin_d.prescription_list') }}">Prescription List</a>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Admin Doctor Dashboard{% endblock title %}
+
+{% set dashboard = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                {% include "dashboard_options.html" %}
+            </div>
+        </div>
+    </section>
+{% endblock content %}

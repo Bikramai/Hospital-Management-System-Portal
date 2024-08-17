@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*{
+    box-sizing: border-box;
+    font-family: Poppins;
+}
+
+body{
+    margin: 0;
+    background: #f0f2f0;
+    background: -webkit-linear-gradient(to bottom, #000c40, #f0f2f0);
+    background: linear-gradient(to bottom, #000c40, #f0f2f0);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    min-height: 100vh;
+}
+
+.nav-header{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-header input{
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.nav-header input[type=email]{
+    width: 250px;
+    outline: none;
+    border: 2px solid lightgray;
+    background-color: transparent;
+    color: white;
+}
+.nav-header input[type=submit]{
+    width: 100px;
+    border: none;
+    color: white;
+    background-color: #0062cc;
+    cursor: pointer;
+}
+
+.nav-bar nav{
+    margin-inline: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 18px;
+    color: white;
+}
+
+.nav-item a{
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+}
+
+.flash-messages{
+    color: #0062cc;
+    font-size: 18px;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 10px 30px;
+    border-radius: 10px;
+
+}
+
+.flash-messages p{
+    margin: 0;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-content{
+    background-color: #f8f9fa;
+    padding: 50px;
+    width: 70%;
+    margin-top: 2%;
+
+    border-radius: 20px;
+}
+.dashboard-content > h3{
+    font-size: 30px;
+    text-align: center;
+    color: #000c40;
+    margin-top: 0;
+}
+
+.dashboard-flex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cancle-btn, .prescribe-btn{
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.cancle-btn{
+    background-color: #c22525;
+}
+
+.prescribe-btn{
+    background-color: #28a745;
+}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Appointment History{% endblock title %}
+
+{% block style %}
+    <style>
+        .dashboard-options{
+            flex: 2;
+        }
+        table{
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            cell-spaceing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead tr{
+            background-color: white;
+        }
+
+        td, th{
+            padding: 15px 5px;
+            border-top: 1px solid lightgrey;
+        }
+
+        tr:hover:not(thead tr){
+            background-color: #e8e8e8;
+        }
+
+    </style>
+{% endblock style %}
+
+{% set appoint_hist_active = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <table cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Doctor</th>
+                                <th>Fees</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appt in appointments %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ appt.doctor.fname }} {{ appt.doctor.lname }}</td>
+                                    <td>{{ appt.fee }} $</td>
+                                    <td>{{ appt.appointment_date.strftime("%d %b, %Y")}}</td>
+                                    <td>{{ appt.appointment_time.strftime("%I:%M %p") }}</td>
+                                    <td>{{ appt.status }}</td>
+                                    <td>
+                                        {% if appt.status == "Active" %}
+                                            <a class="cancle-btn" href="{{ url_for('patient.cancel_appointment', appointment_id=appt.id) }}">Cancel</a>
+                                        {% else %}
+                                            {{ appt.action }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

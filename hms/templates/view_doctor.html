@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}View Doctors{% endblock title %}
+
+{% block style %}
+    <style>
+        .dashboard-options{
+            flex: 2;
+        }
+        table{
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            cell-spaceing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead tr{
+            background-color: white;
+        }
+
+        td, th{
+            padding: 15px 5px;
+            border-top: 1px solid lightgrey;
+        }
+
+        tr:hover:not(thead tr){
+            background-color: #e8e8e8;
+        }
+
+        .search_area{
+            display: flex;
+            margin-bottom: 10px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-options form{
+            flex: 2;
+        }
+
+        .btn, .dashboard-options form input[type=email]{
+            padding: 10px 10px;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .dashboard-options form input[type=email]{
+            width: 40%;
+            border: 1px solid lightgrey;
+        }
+
+        .btn{
+            border: none;
+            background-color: #0062cc;
+            color: white;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .reset{
+            background-color: #c22525;
+            padding: 7px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+    </style>
+{% endblock style %}
+
+{% set view_doctor = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            {% include "flash_message.html" %}
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <div class="search_area">
+                        <form>
+                            <input type="email" name="search_email" placeholder="Email Address" required>
+                            <input class="btn" type="submit" value="Search">
+                        </form>
+                        {% if session['user_type'] == 'ADMIN_G'%}
+                            <a class="reset" href="{{ url_for('admin_g.view_doctors') }}">Reset</a>
+                        {% elif session['user_type'] == 'ADMIN_D' %}
+                            <a class="reset" href="{{ url_for('admin_d.view_doctors') }}">Reset</a>
+                        {% endif %}
+                    </div>
+                    <table cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Doctor Name</th>
+                                <th>Specialization</th>
+                                <th>Email</th>
+                                <th>Username</th>
+                                <th>Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in doctors %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ doc.fname }} {{ doc.lname }}</td>
+                                    <td>{{ doc.specialization[0].specialize }}</td>
+                                    <td>{{ doc.email }}</td>
+                                    <td>{{ doc.username }}</td>
+                                    <td>{{ doc.specialization[0].fee }}$</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

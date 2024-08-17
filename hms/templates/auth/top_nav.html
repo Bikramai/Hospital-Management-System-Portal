@@ -1,0 +1,28 @@
+<style>
+    .login_options{
+        width: fit-content;
+        margin: 0 auto;
+        background-color: #f8f9fa;
+        padding: 9px;
+        border-radius: 10px;
+    }
+
+    .login_options a{
+        text-decoration: none;
+        color: #000c40;
+        margin-inline: 5px;
+        padding: 10px;
+    }
+
+    .active{
+        color: #c22525 !important;
+        background-color: lightgrey;
+        border-radius: 100px;
+    }
+</style>
+<div class="login_options">
+    <a class="{{ patient }}" href="{{ url_for('auth.patient_login') }}">Patient Login</a>
+    <a class="{{ doctor }}" href="{{ url_for('auth.doctor_login') }}">Doctor Login</a>
+    <a class="{{ admin_d }}" href="{{ url_for('auth.admin_d_login') }}">Admin Doctor Login</a>
+    <a class="{{ admin_g }}" href="{{ url_for('auth.admin_g_login') }}">Admin General Login</a>
+</div>

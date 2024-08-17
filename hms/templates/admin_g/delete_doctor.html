@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Delete Doctor{% endblock title %}
+
+{% block style %}
+    <style>
+        .dashboard-options{
+            flex: 2;
+        }
+
+        .dashboard-options{
+            font-size: 15px;
+        }
+
+        .dashboard-options div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-options div input, .dashboard-options div select{
+            width: 70%;
+            padding: 7px 10px;
+            border-radius: 7px;
+            border: 1px solid lightgrey;
+            outline: none;
+        }
+
+        .dashboard-options div input:focus, .dashboard-options div select:focus{
+            outline: 1px solid darkgrey;
+        }
+
+        .dashboard-options form input[type=submit]{
+            padding: 10px 30px;
+            float: right;
+            border: 1px solid lightgray;
+            border-radius: 7px;
+            background-color: #0062cc;
+            font-size: 15px;
+            color: white;
+        }
+
+    </style>
+{% endblock style %}
+
+{% set delete_doctor = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            {% include "flash_message.html" %}
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <form method="post" action="{{ url_for('admin_g.delete_doctor') }}">
+                        <div>
+                            <label>Email ID</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <input onclick="confirmDelete()" type="submit" value="Delete">
+                    </form>
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        function confirmDelete(){
+            var confirmation = confirm("Are you sure you want to delete?");
+
+            if(!confirmation){
+                event.preventDefault()
+            }
+        }
+    </script>
+{% endblock script %}
+

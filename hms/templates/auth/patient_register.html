@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Patient Register{% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <style>
+        .form input[type=radio]{
+            width: 10px !important;
+        }
+
+        .form label{
+            width: 100px !important;
+        }
+
+        .form div:not(.gender-group){
+            display: flex;
+            gap: 30px;
+        }
+
+        .gender-group{
+            margin:0;
+        }
+
+        .gender-group input{
+            height: fit-content !important;
+        }
+    </style>
+{% endblock style %}
+
+{% block content %}
+    <section>
+        <div class="icon-div">
+            <img src="{{ url_for('static', filename='images/ambulance1.png') }}">
+            <h3>We are here for you</h3>
+        </div>
+        <div class="form" id="reg_form">
+            <h3>Patient Registration</h3>
+            <form method="post" action="{{ url_for('auth.patient_register') }}">
+                {% include "flash_message.html" %}
+                <div>
+                    <input type="text" name="fname" placeholder="First Name *" required>
+                    <input type="text" name="lname" placeholder="Last Name *" required>
+                </div>
+                <div>
+                    <input type="email" name="email" placeholder="Your Email *" required>
+                    <input type="text" name="contact" placeholder="Contact *" required>
+                </div>
+                <div>
+                    <input class="pass" type="password" name="password" placeholder="Password *" required>
+                    <input class="pass" type="password" name="c_password" placeholder="Confirm Password *" required>
+                </div>
+                <div id="password-field"></div>
+                <div class="gender-group">
+                    <label for="g-male">
+                    <input id="g-male" name="gender" type="radio" value="male" required>
+                    Male
+                    </label>
+
+                    <label for="g-female">
+                    <input id="g-female" name="gender" type="radio" value="female" required>
+                    Female</label>
+                </div>
+                <input type="submit" value="Register">
+            </form>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        document.getElementById("reg_form").addEventListener("submit", checkPassword);
+        function checkPassword(){
+            var passfields = document.getElementsByClassName("pass");
+
+            if(passfields[0].value != passfields[1].value){
+                var messageArea = document.getElementById("password-field");
+                const msg = document.createElement("span");
+                msg.classList.add("error-msg");
+                const msg_text = document.createTextNode("Password Didn't Match");
+
+                msg.appendChild(msg_text);
+                messageArea.appendChild(msg);
+
+                event.preventDefault();
+            }
+
+        }
+    </script>
+{% endblock script %}

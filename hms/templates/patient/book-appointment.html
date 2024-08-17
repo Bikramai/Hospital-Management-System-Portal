@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock title %}
+
+{% block style %}
+    <style>
+
+        .dashboard-options{
+            flex: 2;
+            flex-wrap: wrap;
+        }
+
+        form label{
+            display:block;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        form div{
+            width: 100%;
+        }
+
+        form input:not(input[type=submit]), form select{
+            width: inherit;
+        }
+
+        form input, form select{
+            padding: 10px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid lightgrey;
+        }
+
+        form{
+            width: 100%;
+            border: 1px solid lightgrey;
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 450px;
+        }
+
+        form input[type=submit]{
+            background-color: #0062cc;
+            padding: 10px 20px;
+            color:white;
+            cursor: pointer;
+        }
+
+        form h2{
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+{% endblock style %}
+
+{% set bk_appoint_active = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+             {% include 'flash_message.html' %}
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <form method="post" action="{{ url_for('patient.book_appointment') }}">
+                        <h2>Book Appointment</h2>
+                        <div>
+                            <label>Specialization:</label>
+                            <select name="specialize" required onchange="goto(this)">
+                                <option link="{{ url_for('patient.book_appointment', specialization=None) }}">-- Choose One --</option>
+                                {% for spec in specializations %}
+                                    <option value="{{ spec }}" link="{{ url_for('patient.book_appointment', specialization=spec) }}" {{ 'selected' if spec == selected_spec else '' }}>{{ spec }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Doctors:</label>
+                            <select name="doctor_id" required onchange="goto(this)">
+                                {% if doctor %}
+                                    <option link="{{ url_for('patient.book_appointment', specialization=selected_spec, doctor=None) }}">-- Choose One --</option>
+                                    {% for doc in doctor %}
+                                        <option value="{{ doc.doctor_id }}" link="{{ url_for('patient.book_appointment', specialization=selected_spec, doctor=doc.user.id) }}" {{ 'selected' if doc.doctor_id == selected_doctor else '' }}>{{ doc.user.fname }} {{ doc.user.lname }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Consultant Fee:</label>
+                            <input name="fee" type="text" value="{{ (doctor|selectattr('doctor_id', 'eq', selected_doctor)|first).fee if selected_doctor else '' }} " required readonly>
+                        </div>
+                        <div>
+                            <label>Appointment Date:</label>
+                            <input name="appoint_date" type="date" required>
+                        </div>
+                        <div>
+                            <label>Appointment Time:</label>
+                            <input name="appoint_time" type="time" required>
+                        </div>
+                        <input type="submit" value="Create New Entry">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        function goto(optionBox){
+            links = optionBox.options[optionBox.selectedIndex].getAttribute('link');
+            location.replace(links)
+        }
+    </script>
+{% endblock script%}

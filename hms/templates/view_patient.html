@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}View Patient{% endblock title %}
+
+{% block style %}
+    <style>
+        .dashboard-options{
+            flex: 2;
+        }
+        table{
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            cell-spaceing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead tr{
+            background-color: white;
+        }
+
+        td, th{
+            padding: 15px 5px;
+            border-top: 1px solid lightgrey;
+        }
+
+        tr:hover:not(thead tr){
+            background-color: #e8e8e8;
+        }
+
+        .search_area{
+            display: flex;
+            margin-bottom: 10px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-options form{
+            flex: 2;
+        }
+
+        .btn, .dashboard-options form input[type=text]{
+            padding: 10px 10px;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .dashboard-options form input[type=text]{
+            width: 40%;
+            border: 1px solid lightgrey;
+        }
+
+        .btn{
+            border: none;
+            background-color: #0062cc;
+            color: white;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .reset{
+            background-color: #c22525;
+            padding: 7px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+    </style>
+{% endblock style %}
+
+{% set view_patient = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            {% include "flash_message.html" %}
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <div class="search_area">
+                        <form>
+                            <input type="text" name="search_contact" placeholder="Contact Number" required>
+                            <input class="btn" type="submit" value="Search">
+                        </form>
+                        {% if session['user_type'] == 'ADMIN_G'%}
+                            <a class="reset" href="{{ url_for('admin_g.view_patients') }}">Reset</a>
+                        {% elif session['user_type'] == 'ADMIN_D' %}
+                            <a class="reset" href="{{ url_for('admin_d.view_patients') }}">Reset</a>
+                        {% endif %}
+                    </div>
+                    <table cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Gender</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pat in patients %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ pat.fname }} {{ pat.lname }}</td>
+                                    <td>{{ pat.gender.capitalize() }}</td>
+                                    <td>{{ pat.email }}</td>
+                                    <td>{{ pat.contact }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

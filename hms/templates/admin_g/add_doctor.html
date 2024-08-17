@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}View Doctors{% endblock title %}
+
+{% block style %}
+    <style>
+        .dashboard-options{
+            flex: 2;
+        }
+
+        .dashboard-options{
+            font-size: 15px;
+        }
+
+        .dashboard-options div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-options div input, .dashboard-options div select{
+            width: 70%;
+            padding: 7px 10px;
+            border-radius: 7px;
+            border: 1px solid lightgrey;
+            outline: none;
+        }
+
+        .dashboard-options div input:focus, .dashboard-options div select:focus{
+            outline: 1px solid darkgrey;
+        }
+
+        .dashboard-options form input[type=submit]{
+            padding: 10px 30px;
+            float: right;
+            border: 1px solid lightgray;
+            border-radius: 7px;
+            background-color: #0062cc;
+            font-size: 15px;
+            color: white;
+        }
+
+        .name-fields input{
+            width: 47% !important;
+        }
+        .name-fields div{
+            width: 70%;
+        }
+
+    </style>
+{% endblock style %}
+
+{% set add_doctor = 'side-panel-active' %}
+
+{% block content %}
+    <section>
+        <div class="dashboard-content">
+            <h3>Welcome {{ user.fname }} {{ user.lname }}</h3>
+            {% include "flash_message.html" %}
+            <div class="dashboard-flex">
+                {% include "side_panel.html" %}
+                <div class="dashboard-options">
+                    <form method="post" action="{{ url_for('admin_g.add_doctor') }}">
+                        <div class="name-fields">
+                            <label>Doctor Name</label>
+                            <div>
+                                <input type="text" name="fname" placeholder="First Name" required>
+                                <input type="text" name="lname" placeholder="Last Name" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Username</label>
+                            <input type="text" name="username" required>
+                        </div>
+                        <div>
+                            <label>Specialization</label>
+                            <select name="specialize" required>
+                                <option>Select Specialization</option>
+                                {% for spec in specializations %}
+                                    <option value="{{ spec }}">{{ spec }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Email ID</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" name="password" required>
+                        </div>
+                        <div>
+                            <label>Confirm Password</label>
+                            <input type="password" name="c_password" required>
+                        </div>
+                        <div>
+                            <label>Consultancy Fees</label>
+                            <input type="number" name="fee" required>
+                        </div>
+                        <input type="submit" value="Add Doctor">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
