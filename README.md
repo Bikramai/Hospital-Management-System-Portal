@@ -3,8 +3,8 @@ Allow easy appointment booking between patients and doctors. Doctors can prescri
 
 Technologies:
 
-Languages : JavaScript, HTML, CSS, Python
-Framework : Flask, Flask-SQLAlchemy, Smtplib
+Languages : JavaScript, HTML, CSS, Python <br>
+Framework : Flask, Flask-SQLAlchemy, Smtplib <br>
 Database : SQLite3
 
 How to run project
